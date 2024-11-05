@@ -118,7 +118,8 @@ ggplot(grades, aes(x = trimester, y = grade, fill = trimester)) +
 ```{r, warning=FALSE}
 grades_per_student <- grades %>%
   group_by(id, group) %>%
-  summarize(nb_grades = n())
+  summarize(nb_grades = n())%>%
+  select(id, group, nb_grades)
 
 knitr::kable(head(grades_per_student, 5))
 ```
@@ -129,6 +130,16 @@ knitr::kable(head(grades_per_student, 5))
 
 : Summary statistics (number of grades)
 
-
-
 ## Question 9
+```{r}
+q9 <- grades %>%
+  filter(course == "Radiation Ecology and Environmental Science") %>%
+  group_by(id, group) %>%
+  summarize(nb_grades = n())
+
+knitr::kable(head(q9, 5))
+```
+
+
+
+
