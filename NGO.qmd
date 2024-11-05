@@ -68,5 +68,24 @@ students %>%
 
 ## Question 6
 ```{r}
-
+grades %>%
+  filter(course == "Renewable Energy and Sustainable Living") %>%
+  mutate(group = as.factor(group)) %>%
+  group_by(group) %>%
+  summarize(avg_grade = mean(grade)) %>%
+  ggplot(aes(x = group, y = avg_grade, fill = group)) +
+  geom_col(stat = "identity") +
+  labs(x = "Group", y = "Average Grade", title = "Average Grades in Renewable Energy and Sustainable Living")
 ```
+
+
+
+
+
+
+
+
+
+
+
+
