@@ -140,6 +140,18 @@ q9 <- grades %>%
 knitr::kable(head(q9, 5))
 ```
 
+## Question 10
+
+```{r}
+q10 <- q9 %>%
+  count(nb_grades)%>%
+  mutate(nb_grades = as.factor(nb_grades))
+
+ggplot(q10, aes(x = nb_grades, y = n, fill = nb_grades)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Number of Grades", y = "Number of Students", title = "Distribution of Grades per Student in Radiation Ecology and Environmental Science")
+```
+
 
 
 
