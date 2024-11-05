@@ -164,9 +164,20 @@ ggplot(q9, aes(x = group, y = nb_grades, fill = group)) +
 ## Question 12
 
 ```{r}
-
+grades_avg <- grades %>%
+  group_by(id, group, course) %>%
+  summarize(avg_grade = mean(grade))
 ```
 
+```{r}
+grades_wide <- grades_avg %>%
+  pivot_wider(
+    id_cols = c(id, group),
+    names_from = course,
+    values_from = avg_grade
+  )
+knitr::kable(head(grades_wide, 5))
+```
 
 
 
