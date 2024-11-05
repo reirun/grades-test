@@ -1,6 +1,28 @@
 ---
 title: "NGO"
 author: "Loïs NGO"
-format: html
+format:
+  html: default
+  pdf: default
+cache: true
 ---
+
+## Setup
+```{r, echo=FALSE, warning=FALSE}
+#| message: false
+here::i_am("grades_test.Rproj")
+library(here)
+library(vroom)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+## Question 1
+```{r}
+#| message: false
+grades <- vroom(here("grades.csv"))
+```
+
 
