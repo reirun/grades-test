@@ -179,5 +179,26 @@ grades_wide <- grades_avg %>%
 knitr::kable(head(grades_wide, 5))
 ```
 
+## Question 13 
+
+```{r}
+relevant_courses <- grades_wide %>%
+  select(id, group, `Post-Apocalyptic History and Archaeology`, `Moral Philosophy and Ethical Decision-Making`)
+
+relevant_courses <- relevant_courses %>%
+  rowwise() %>%
+  mutate(
+    avg_history_archaeology = mean(c(`Post-Apocalyptic History and Archaeology`, `Archaeology`), na.rm = TRUE),
+    avg_philosophy_ethics = mean(c(`Moral Philosophy`, `Ethical Decision-Making`), na.rm = TRUE)
+  )
+
+# Create a scatter plot
+ggplot(relevant_courses, aes(x = avg_philosophy_ethics, y = avg_history_archaeology)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Average Grade in Moral Philosophy and Ethical Decision-Making",
+       y = "Average Grade in Post-Apocalyptic History and Archaeology",
+       title = "Relationship Between Average Grades")
+```
 
 
