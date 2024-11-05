@@ -23,6 +23,8 @@ theme_set(theme_bw())
 ```{r}
 #| message: false
 grades <- vroom(here("grades.csv"))
+grades <- grades %>%
+  mutate(id = as.integer(id))
 ```
 
 ## Question 2
@@ -33,20 +35,38 @@ The data set contains `{r} nrow(grades)` grades.
 
 ## Question 3
 ```{r}
-
+library(dplyr)
+grades %>%
+  distinct(id)%>%
+  nrow()
 ```
+The data set contains `{r} grades %>% distinct(id) %>% nrow()` students.
 
 ## Question 4
 ```{r}
+students <- grades %>%
+  distinct(id, group) %>%
+  arrange(id)
+```
 
+```{r}
+students %>%
+  slice_head(n = 5) %>%
+  knitr::kable()
 ```
 
 ## Question 5
 ```{r}
-
+students %>%
+  group_by(group) %>%
+  summarise(nb_students = n()) %>%
+  mutate(group = as.factor(group)) %>%
+  ggplot(aes(x = group, y = nb_students, fill = group)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Group", y = "Number of Students", title = "Number of Students per Group")
 ```
 
-## Question 2
+## Question 6
 ```{r}
 
 ```
