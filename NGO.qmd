@@ -5,9 +5,13 @@ format:
   html: default
   pdf: default
 cache: true
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Setup
+
 ```{r, echo=FALSE, warning=FALSE}
 #| message: false
 here::i_am("grades_test.Rproj")
@@ -15,34 +19,47 @@ library(here)
 library(vroom)
 library(dplyr)
 library(tidyr)
+library(magrittr)
 library(ggplot2)
 theme_set(theme_bw())
 ```
 
+# Introduction
+
 ## Question 1
+
 ```{r}
 #| message: false
 grades <- vroom(here("grades.csv"))
 grades <- grades %>%
-  mutate(id = as.integer(id))
+  mutate(id = as.integer(id)) %>%
+  mutate(group = as.factor(group)) %>%
+  mutate(trimester = as.factor(trimester))
 ```
 
+# Simple anlyses
+
 ## Question 2
+
 ```{r}
 nrow(grades)
 ```
+
 The data set contains `{r} nrow(grades)` grades.
 
 ## Question 3
+
 ```{r}
 library(dplyr)
 grades %>%
   distinct(id)%>%
   nrow()
+
+# The data set contains `{r} grades %>% distinct(id) %>% nrow()` students.#
 ```
-The data set contains `{r} grades %>% distinct(id) %>% nrow()` students.
 
 ## Question 4
+
 ```{r}
 students <- grades %>%
   distinct(id, group) %>%
@@ -56,6 +73,7 @@ students %>%
 ```
 
 ## Question 5
+
 ```{r}
 students %>%
   group_by(group) %>%
@@ -67,6 +85,7 @@ students %>%
 ```
 
 ## Question 6
+
 ```{r}
 grades %>%
   filter(course == "Renewable Energy and Sustainable Living") %>%
@@ -78,14 +97,38 @@ grades %>%
   labs(x = "Group", y = "Average Grade", title = "Average Grades in Renewable Energy and Sustainable Living")
 ```
 
+## Question 7
+
+```{r}
+ggplot(grades, aes(x = grade, color = trimester)) +
+  geom_density() +
+  labs(title = "Distribution of Grades by Semester")
+```
+
+```{r}
+ggplot(grades, aes(x = trimester, y = grade, fill = trimester)) +
+  geom_violin() +
+  labs(title = "Distribution of Grades by Trimester")
+```
+
+# Attendance analysis
+
+## Question 8
+
+```{r, warning=FALSE}
+grades_per_student <- grades %>%
+  group_by(id, group) %>%
+  summarize(nb_grades = n())
+
+knitr::kable(head(grades_per_student, 5))
+```
+
+| Minimum | Maximum | Average | Median |
+|---------|---------|---------|--------|
+| `{r} min(grades_per_student$nb_grades)`       | `{r} max(grades_per_student$nb_grades)`      | `{r} mean(grades_per_student$nb_grades)`       | `{r} median(grades_per_student$nb_grades)`      |
+
+: Summary statistics (number of grades)
 
 
 
-
-
-
-
-
-
-
-
+## Question 9
