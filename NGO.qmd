@@ -152,6 +152,21 @@ ggplot(q10, aes(x = nb_grades, y = n, fill = nb_grades)) +
   labs(x = "Number of Grades", y = "Number of Students", title = "Distribution of Grades per Student in Radiation Ecology and Environmental Science")
 ```
 
+## Question 11
+
+```{r}
+ggplot(q9, aes(x = group, y = nb_grades, fill = group)) +
+  geom_boxplot() +
+  labs(x = "Group", y = "Number of Grades", title = "Distribution of Grades per Student by Group")
+```
+
+# Grade analysis
+## Question 12
+
+```{r}
+
+```
+
 
 
 
